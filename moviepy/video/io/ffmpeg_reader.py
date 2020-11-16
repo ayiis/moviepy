@@ -462,6 +462,12 @@ def ffmpeg_parse_infos(
             result["audio_fps"] = int(hz_string)
         except Exception:
             result["audio_fps"] = "unknown"
+        try:
+            match_ac = re.search(r"""Audio:\W(\w+)\W""", line)
+            result["audio_codec"] = match_ac.group(1)
+        except Exception:
+            result["audio_codec"] = ""
+
         match_bit = re.search(r"(\d+) kb/s", line)
         result["audio_bitrate"] = int(match_bit.group(1)) if match_bit else None
 
